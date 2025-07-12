@@ -12,7 +12,7 @@ const sound = document.getElementById("teleport-sound");
 const toggleBtn = document.getElementById("teleport-toggle");
 
 // State order for toggling
-const stateOrder = ["CID_GHOST", "CID_DEFAULT_1", "CID_DEFAULT_2", "CID_SENDING", "CID_MERGED"];
+const stateOrder = ["CID_MERGED", "CID_SENDING", "CID_DEFAULT_2", "CID_GHOST"];
 let currentIndex = 0;
 
 let contract, signer;
@@ -23,7 +23,7 @@ const ipfsGateway = cid =>
 
 // Define all state CIDs
 const stateCIDs = {
-  CID_DEFAULT_1: window.CID_DEFAULT_1,
+  //CID_DEFAULT_1: window.CID_DEFAULT_1,
   CID_DEFAULT_2: window.CID_DEFAULT_2,
   CID_MERGED: window.CID_MERGED,
   CID_SENDING: window.CID_SENDING,
@@ -87,7 +87,7 @@ function simulateTeleport(cidKey) {
       setTimeout(() => {
         overlay.classList.add("hidden");
         simulateTeleport("CID_MERGED"); // Auto switch
-        currentIndex = stateOrder.indexOf("CID_MERGED");
+        currentIndex = stateOrder.indexOf("CID_GHOST");
       }, 1000); // Duration matches .gif / animation
     });
   } else {
