@@ -12,7 +12,7 @@ const sound = document.getElementById("teleport-sound");
 const toggleBtn = document.getElementById("teleport-toggle");
 
 // State order for toggling
-const stateOrder = ["CID_DEFAULT_1", "CID_DEFAULT_2", "CID_SENDING", "CID_MERGED", "CID_GHOST"];
+const stateOrder = ["CID_GHOST", "CID_DEFAULT_1", "CID_DEFAULT_2", "CID_SENDING", "CID_MERGED"];
 let currentIndex = 0;
 
 let contract, signer;
