@@ -9,7 +9,7 @@ window.CONTRACT_ABI = [
 
 //window.CID_DEFAULT_1 = "ipfs://bafybeiclhpw4ila6u7oejt2zmezxrffl44dxjkxyfjbacawgcighlghr4i";
 window.CID_DEFAULT_1 = "ipfs://bafybeiayekrbt5rirlewyq6zfqx6r3ygwfsrwjqdmqohxcr5rmo5c2tadm";
-window.CID_DEFAULT_2 = "ipfs://bafybeieiht7rijbauvain7fjz7ankjocrk4bz6d7vprqpscmuvfuevbmhy";
 //window.CID_MERGED     = "ipfs://bafybeigddxpm5fjmhxjmtwndbj7f47uuoknnzebpfvy4revunbggaaxeg4";
 window.CID_SENDING    = "ipfs://bafybeidrzpoooah2mlnjmwhuvpg6o4vqqxsrgkgn3rwnqlsffttp5zrg4i";
+window.CID_DEFAULT_2 = "ipfs://bafybeieiht7rijbauvain7fjz7ankjocrk4bz6d7vprqpscmuvfuevbmhy";
 window.CID_GHOST      = "ipfs://bafybeigddxpm5fjmhxjmtwndbj7f47uuoknnzebpfvy4revunbggaaxeg4";
