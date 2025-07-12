@@ -97,7 +97,7 @@ function simulateTeleport(cidKey) {
         simulateTeleport("CID_DEFAULT_2");
         currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
         teleportToggle.disabled = false;
-      }, 3000); // ⏱️ Adjust to match full GIF animation length
+      }, 1000); // ⏱️ Adjust to match full GIF animation length
     });
   } else {
     teleportTransition(() => {
