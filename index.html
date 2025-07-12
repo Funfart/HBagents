@@ -1,35 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Teleport NFT Viewer</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>Teleport NFT Viewer</h1>
+  <div class="background-layer" id="background-layer"></div>
 
+  <div class="container">
+    <h1>Teleport NFT</h1>
     <div class="nft-display">
-      <img id="nftImage" src="" alt="NFT" />
-      <audio id="teleport-sound" src="audio/teleport.mp3" preload="auto"></audio>
-      <div class="cooldown" id="cooldown"></div>
+      <img id="nftImage" src="" alt="NFT Display" />
+      <img id="ghostLayer" class="overlay hidden" src="" alt="Ghost Layer" />
     </div>
+    <div class="cooldown" id="cooldownDisplay">⌛ Cooldown: --</div>
+    <div class="status" id="status">Connecting...</div>
 
     <div class="buttons">
-      <select id="stateSelector">
-        <option value="CID_DEFAULT_1">Default 1</option>
-        <option value="CID_DEFAULT_2">Default 2</option>
-        <option value="CID_MERGED">Merged</option>
-        <option value="CID_SENDING">Sending</option>
-      </select>
+      <button id="teleport-toggle">Toggle State</button>
     </div>
-
-    <div class="status" id="status">Loading...</div>
   </div>
 
-  <!-- Script imports -->
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm" type="module"></script>
   <script src="config.js"></script>
-  <script src="viewer.js" type="module"></script>
+  <script src="index.js" type="module"></script>
 </body>
 </html>
