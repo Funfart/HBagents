@@ -1,4 +1,4 @@
-window.CONTRACT_ADDRESS = "0xYourContractAddress"; // Replace with real address
+window.CONTRACT_ADDRESS = "0xb24D7Cd5eE9AcB56e5F1eA2986eB1a8133962407"; // Replace with real address
 window.CONTRACT_ABI = [
   "function getTeleportState(uint256 tokenId) view returns (tuple(string currentCID, uint256 cooldownEndsAt, bool isOnlySender, bool isOnlyReceiver, bool hasRequest))",
   "function teleport(uint256 tokenId) external",
