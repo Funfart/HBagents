@@ -35,7 +35,8 @@ window.onload = async () => {
     tokenId = parseInt(urlParams.get("id"));
   }
 
-  document.getElementById("background-layer").style.backgroundImage = `url("https://ipfs.io/ipfs/bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om")`;
+  document.getElementById("background-layer").style.backgroundImage =
+    `url("https://ipfs.io/ipfs/bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om")`;
 
   if (!window.ethereum) {
     statusEl.textContent = "🦊 MetaMask required.";
@@ -87,12 +88,9 @@ function simulateTeleport(cidKey) {
 
             overlay.addEventListener("transitionend", function handleFade() {
               overlay.removeEventListener("transitionend", handleFade);
-              nftImage.style.visibility = "visible";
-              simulateTeleport("CID_DEFAULT_2");
-              currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
-              toggleBtn.disabled = false;
+              showDefault2State(); // Final switch to DEFAULT_2
             });
-          }, 2000);
+          }, 2000); // Match your .gif timing
         });
       };
     });
@@ -103,9 +101,28 @@ function simulateTeleport(cidKey) {
         statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
       };
       overlay.classList.add("hidden");
+      nftImage.style.visibility = "visible";
       toggleBtn.disabled = false;
     });
   }
+}
+
+function showDefault2State() {
+  const defaultCID = stateCIDs["CID_DEFAULT_2"];
+  if (!defaultCID) {
+    statusEl.textContent = "⚠️ CID_DEFAULT_2 not available.";
+    return;
+  }
+
+  nftImage.src = ipfsGateway(defaultCID);
+  nftImage.onload = () => {
+    statusEl.textContent = "🖼️ Showing: DEFAULT_2";
+  };
+
+  nftImage.style.visibility = "visible";
+  overlay.classList.add("hidden");
+  currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
+  toggleBtn.disabled = false;
 }
 
 function teleportTransition(callback) {
