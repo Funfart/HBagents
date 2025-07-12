@@ -99,7 +99,7 @@ function simulateTeleport(cidKey) {
           // Reset current index to CID_DEFAULT_2
           currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
           toggleBtn.disabled = false;
-        }, 1500); // ⏱️ Adjust timing to match half of your .gif loop
+        }, 1700); // ⏱️ Adjust timing to match half of your .gif loop
       };
     });
   } else {
