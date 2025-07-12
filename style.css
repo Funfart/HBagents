@@ -36,20 +36,28 @@ body {
 
 .nft-display {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #nftImage, .overlay {
-  max-width: 280px;
   width: 100%;
+  max-width: 280px;
+  height: auto;
   border-radius: 12px;
   border: 3px solid #00ffe0;
   box-shadow: 0 0 15px #00ffe0aa;
+  transition: filter 0.3s ease;
 }
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
 }
 
 .hidden {
