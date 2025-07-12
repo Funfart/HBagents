@@ -24,7 +24,7 @@ const ipfsGateway = cid =>
 // Define all state CIDs
 const stateCIDs = {
   CID_MERGED: window.CID_MERGED,
-  CID_SENDING: window.CID_SENDING, 
+  CID_SENDING: window.CID_SENDING,
   CID_DEFAULT_2: window.CID_DEFAULT_2,
   CID_GHOST: window.CID_GHOST
 };
@@ -81,16 +81,20 @@ function simulateTeleport(cidKey) {
       overlay.classList.remove("hidden");
       statusEl.textContent = `✈️ Sending...`;
 
+      let handled = false;
       overlay.onload = () => {
+        if (handled) return;
+        handled = true;
+
         requestAnimationFrame(() => {
           setTimeout(() => {
             overlay.classList.add("hidden");
 
             overlay.addEventListener("transitionend", function handleFade() {
               overlay.removeEventListener("transitionend", handleFade);
-              showDefault2State(); // Final switch to DEFAULT_2
+              showDefault2State(); // Switch cleanly to CID_DEFAULT_2
             });
-          }, 2000); // Match your .gif timing
+          }, 2000); // Match your GIF timing
         });
       };
     });
@@ -121,7 +125,10 @@ function showDefault2State() {
 
   nftImage.style.visibility = "visible";
   overlay.classList.add("hidden");
-  currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
+
+  // ✅ Set index to point to the NEXT state, not current
+  currentIndex = (stateOrder.indexOf("CID_DEFAULT_2") + 1) % stateOrder.length;
+
   toggleBtn.disabled = false;
 }
 
