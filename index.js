@@ -83,22 +83,28 @@ function simulateTeleport(cidKey) {
   // Block user toggling during animation
   toggleBtn.disabled = true;
 
-  if (cidKey === "CID_SENDING") {
-    teleportTransition(() => {
-      overlay.src = ipfsGateway(newCID);
-      overlay.classList.remove("hidden");
-      statusEl.textContent = `✈️ Sending...`;
+ if (cidKey === "CID_SENDING") {
+  teleportTransition(() => {
+    overlay.src = ipfsGateway(newCID);
+    overlay.classList.remove("hidden");
+    statusEl.textContent = `✈️ Sending...`;
 
-      // Wait until overlay (GIF) fully loads before starting transition timer
-      overlay.onload = () => {
+    overlay.onload = () => {
+      setTimeout(() => {
+        overlay.classList.add("hidden");
+
+        // Delay the default_2 image update to let overlay fully hide first
         setTimeout(() => {
-          overlay.classList.add("hidden");
           simulateTeleport("CID_DEFAULT_2");
 
-          // Reset current index to CID_DEFAULT_2
           currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
           toggleBtn.disabled = false;
-        }, 2000); // ⏱️ Adjust timing to match half of your .gif loop
+        }, 150); // 👈 Small delay to allow browser repaint (~1 frame)
+
+      }, 2000); // Show sending animation
+    };
+  });
+}⏱️ Adjust timing to match half of your .gif loop
       };
     });
   } else {
