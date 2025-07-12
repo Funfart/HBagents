@@ -1,4 +1,4 @@
-import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm";
+Fimport { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm";
 
 // Load from config
 const CONTRACT_ADDRESS = window.CONTRACT_ADDRESS;
@@ -12,7 +12,7 @@ const sound = document.getElementById("teleport-sound");
 const toggleBtn = document.getElementById("teleport-toggle");
 
 // State order for toggling
-const stateOrder = ["CID_MERGED", "CID_SENDING", "CID_DEFAULT_2", "CID_GHOST"];
+const stateOrder = ["CID_DEFAULT_1", "CID_SENDING", "CID_DEFAULT_2", "CID_GHOST"];
 let currentIndex = 0;
 
 let contract, signer;
@@ -24,8 +24,8 @@ const ipfsGateway = cid =>
 // Define all state CIDs
 const stateCIDs = {
   //CID_DEFAULT_1: window.CID_DEFAULT_1,
-  CID_DEFAULT_2: window.CID_DEFAULT_2,
-  CID_MERGED: window.CID_MERGED,
+  CID_DEFAULT_2: window.CID_DEFAULT_1,
+  CID_MERGED: window.CID_DEFAULT_2,
   CID_SENDING: window.CID_SENDING,
   CID_GHOST: window.CID_GHOST
 };
