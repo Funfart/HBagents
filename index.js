@@ -71,6 +71,8 @@ function handleToggle() {
   simulateTeleport(nextKey);
 }
 
+let userCanToggle = true; // global flag
+
 function simulateTeleport(cidKey) {
   const newCID = stateCIDs[cidKey];
   if (!newCID) {
@@ -78,18 +80,25 @@ function simulateTeleport(cidKey) {
     return;
   }
 
+  // Block user toggle if not allowed
+  if (!userCanToggle && cidKey !== "CID_SENDING") return;
+
   if (cidKey === "CID_SENDING") {
-    // Play animation once then switch to Merged
+    userCanToggle = false; // lock toggle input
+
     teleportTransition(() => {
+      nftImage.src = ""; // clear base image
       overlay.src = ipfsGateway(newCID);
       overlay.classList.remove("hidden");
       statusEl.textContent = `✈️ Sending...`;
 
       setTimeout(() => {
         overlay.classList.add("hidden");
-        simulateTeleport("CID_DEFAULT_2"); // Auto switch
+        nftImage.src = ipfsGateway(stateCIDs["CID_DEFAULT_2"]);
+        statusEl.textContent = `🖼️ Showing: DEFAULT_2`;
         currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
-      }, 1000); // Duration matches .gif / animation
+        userCanToggle = true; // re-enable toggle
+      }, 1200); // match animation duration
     });
   } else {
     teleportTransition(() => {
