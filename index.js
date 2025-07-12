@@ -71,8 +71,6 @@ function handleToggle() {
   simulateTeleport(nextKey);
 }
 
-let userCanToggle = true; // global flag
-
 function simulateTeleport(cidKey) {
   const newCID = stateCIDs[cidKey];
   if (!newCID) {
@@ -80,36 +78,28 @@ function simulateTeleport(cidKey) {
     return;
   }
 
-  // Block user toggling during animation
-  toggleBtn.disabled = true;
-
   if (cidKey === "CID_SENDING") {
+    // Play animation once then switch to Merged
     teleportTransition(() => {
       overlay.src = ipfsGateway(newCID);
       overlay.classList.remove("hidden");
       statusEl.textContent = `✈️ Sending...`;
 
-      // Wait until overlay (GIF) fully loads before starting transition timer
-      overlay.onload = () => {
-        setTimeout(() => {
-          overlay.classList.add("hidden");
-          simulateTeleport("CID_DEFAULT_2");
-
-          // Reset current index to CID_DEFAULT_2
-          currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
-          toggleBtn.disabled = false;
-        }, 1200); // ⏱️ Adjust timing to match half of your .gif loop
-      };
+      setTimeout(() => {
+        overlay.classList.add("hidden");
+        simulateTeleport("CID_DEFAULT_2"); // Auto switch
+        currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
+      }, 1000); // Duration matches .gif / animation
     });
   } else {
     teleportTransition(() => {
       nftImage.src = ipfsGateway(newCID);
       overlay.classList.add("hidden");
       statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
-      toggleBtn.disabled = false;
     });
   }
 }
+
 function teleportTransition(callback) {
   sound.currentTime = 0;
   sound.play().catch(() => {});
