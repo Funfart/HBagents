@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,22 +7,46 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Background blur layer -->
   <div class="background-layer" id="background-layer"></div>
 
+  <!-- Main container -->
   <div class="container">
     <h1>Teleport NFT</h1>
+
+    <!-- NFT display area -->
     <div class="nft-display">
       <img id="nftImage" src="" alt="NFT Display" />
-      <img id="ghostLayer" class="overlay hidden" src="" alt="Ghost Layer" />
+      <img id="overlay" class="overlay hidden" src="" alt="Animated/GIF Layer" />
     </div>
+
+    <!-- Cooldown (optional for smart contract logic) -->
     <div class="cooldown" id="cooldownDisplay">⌛ Cooldown: --</div>
+
+    <!-- Connection / Status message -->
     <div class="status" id="status">Connecting...</div>
 
+    <!-- State switching: Button + Dropdown -->
     <div class="buttons">
       <button id="teleport-toggle">Toggle State</button>
     </div>
+
+    <div style="margin-top: 1rem;">
+      <label for="stateSelector">Select State:</label>
+      <select id="stateSelector">
+        <option value="CID_DEFAULT_1">Default 1</option>
+        <option value="CID_DEFAULT_2">Default 2</option>
+        <option value="CID_SENDING">Sending</option>
+        <option value="CID_MERGED">Merged</option>
+        <option value="CID_GHOST">Ghost</option>
+      </select>
+    </div>
+
+    <!-- Audio effect -->
+    <audio id="teleport-sound" src="teleport.mp3" preload="auto"></audio>
   </div>
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm" type="module"></script>
   <script src="config.js"></script>
   <script src="index.js" type="module"></script>
