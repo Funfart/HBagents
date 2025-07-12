@@ -23,8 +23,6 @@ const ipfsGateway = cid =>
 
 // Define all state CIDs
 const stateCIDs = {
-  //CID_DEFAULT_1: window.CID_DEFAULT_1,
- 
   CID_MERGED: window.CID_MERGED,
   CID_SENDING: window.CID_SENDING, 
   CID_DEFAULT_2: window.CID_DEFAULT_2,
@@ -32,14 +30,13 @@ const stateCIDs = {
 };
 
 window.onload = async () => {
-  // Get tokenId from query param if available
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has("id")) {
     tokenId = parseInt(urlParams.get("id"));
   }
 
-  // Background stays static
-  document.getElementById("background-layer").style.backgroundImage = `url("https://ipfs.io/ipfs/bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om")`;
+  document.getElementById("background-layer").style.backgroundImage =
+    `url("https://ipfs.io/ipfs/bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om")`;
 
   if (!window.ethereum) {
     statusEl.textContent = "🦊 MetaMask required.";
@@ -53,10 +50,8 @@ window.onload = async () => {
 
     statusEl.textContent = `✅ Connected | Token #${tokenId}`;
 
-    // Setup toggle button
     toggleBtn.addEventListener("click", handleToggle);
 
-    // Start with default state
     simulateTeleport(stateOrder[currentIndex]);
   } catch (err) {
     console.error(err);
@@ -65,7 +60,6 @@ window.onload = async () => {
 };
 
 function handleToggle() {
-  // Advance to next state
   currentIndex = (currentIndex + 1) % stateOrder.length;
   const nextKey = stateOrder[currentIndex];
   simulateTeleport(nextKey);
@@ -78,26 +72,57 @@ function simulateTeleport(cidKey) {
     return;
   }
 
+  toggleBtn.disabled = true;
+
   if (cidKey === "CID_SENDING") {
-    // Play animation once then switch to Merged
     teleportTransition(() => {
+      nftImage.style.visibility = "hidden";
       overlay.src = ipfsGateway(newCID);
       overlay.classList.remove("hidden");
       statusEl.textContent = `✈️ Sending...`;
 
-      setTimeout(() => {
-        overlay.classList.add("hidden");
-        simulateTeleport("CID_DEFAULT_2"); // Auto switch
-        currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
-      }, 1000); // Duration matches .gif / animation
+      overlay.onload = () => {
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            overlay.classList.add("hidden");
+
+            overlay.addEventListener("transitionend", function handleFade() {
+              overlay.removeEventListener("transitionend", handleFade);
+              showDefault2State(); // Final switch to DEFAULT_2
+            });
+          }, 2000); // Match your .gif timing
+        });
+      };
     });
   } else {
     teleportTransition(() => {
       nftImage.src = ipfsGateway(newCID);
+      nftImage.onload = () => {
+        statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
+      };
       overlay.classList.add("hidden");
-      statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
+      nftImage.style.visibility = "visible";
+      toggleBtn.disabled = false;
     });
   }
+}
+
+function showDefault2State() {
+  const defaultCID = stateCIDs["CID_DEFAULT_2"];
+  if (!defaultCID) {
+    statusEl.textContent = "⚠️ CID_DEFAULT_2 not available.";
+    return;
+  }
+
+  nftImage.src = ipfsGateway(defaultCID);
+  nftImage.onload = () => {
+    statusEl.textContent = "🖼️ Showing: DEFAULT_2";
+  };
+
+  nftImage.style.visibility = "visible";
+  overlay.classList.add("hidden");
+  currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
+  toggleBtn.disabled = false;
 }
 
 function teleportTransition(callback) {
