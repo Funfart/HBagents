@@ -3,122 +3,91 @@
 }
 
 body {
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-  color: #eee;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
-  height: 100vh;
+  background: #000;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.background-layer {
+  background-image: url("https://ipfs.io/ipfs/bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om");
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px) brightness(0.4);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
 }
 
 .container {
-  text-align: center;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0, 0, 0, 0.8);
   padding: 2rem;
   border-radius: 12px;
-  width: 320px;
-  box-shadow: 0 0 15px #00ffe0aa;
-}
-
-h1 {
-  margin-bottom: 1rem;
+  width: 360px;
+  text-align: center;
+  box-shadow: 0 0 20px #00ffe0aa;
 }
 
 .nft-display {
   position: relative;
 }
 
-#nftImage {
-  width: 100%;
+#nftImage, .overlay {
   max-width: 280px;
-  height: auto;
-  border-radius: 10px;
+  width: 100%;
+  border-radius: 12px;
   border: 3px solid #00ffe0;
   box-shadow: 0 0 15px #00ffe0aa;
-  transition: filter 0.3s ease;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.hidden {
+  display: none;
 }
 
 .cooldown {
-  margin-top: 0.5rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
+  margin-top: 1rem;
+  font-size: 1rem;
 }
 
-.buttons {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: space-around;
+.status {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: #aaa;
 }
 
 button {
   background: #00ffe0;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1.2rem;
-  border-radius: 8px;
   color: #000;
+  padding: 10px 20px;
+  margin-top: 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
-  flex: 1;
-  margin: 0 0.5rem;
 }
 
-button:disabled {
-  background: #005753;
-  cursor: not-allowed;
-  color: #444;
-}
-
-button:hover:not(:disabled) {
+button:hover {
   background: #00ccae;
 }
 
-.status {
-  margin-top: 1rem;
-  font-weight: 700;
-  font-size: 1.1rem;
-  user-select: none;
-}
-
-.status.muted {
-  color: #555;
-}
-
-.status.active {
-  color: #00ffe0;
-}
-
 .flash {
-  animation: flash-glow 0.5s ease-in-out;
+  animation: flash 0.6s ease-in-out;
 }
-/* Visual Teleport Effects */
+
 @keyframes flash {
   0%, 100% { filter: brightness(2) invert(1); }
   50% { filter: brightness(1) invert(0); }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translate(0); }
-  25% { transform: translate(-5px, 5px); }
-  50% { transform: translate(5px, -5px); }
-  75% { transform: translate(-3px, 3px); }
-}
-
-.flash {
-  animation: flash 0.6s ease;
-}
-
-.shake {
-  animation: shake 0.6s ease;
-}
-@keyframes flash-glow {
-  0%, 100% {
-    filter: drop-shadow(0 0 8px #00ffe0);
-  }
-  50% {
-    filter: drop-shadow(0 0 20px #00fff0);
-  }
 }
