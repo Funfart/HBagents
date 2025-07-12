@@ -86,6 +86,7 @@ function simulateTeleport(cidKey) {
   if (cidKey === "CID_SENDING") {
     teleportTransition(() => {
       overlay.src = ipfsGateway(newCID);
+      overlay.classList.add("shift-right");
       overlay.classList.remove("hidden");
       statusEl.textContent = `✈️ Sending...`;
 
