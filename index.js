@@ -78,22 +78,23 @@ function simulateTeleport(cidKey) {
   }
 
   if (cidKey === "CID_SENDING") {
-    // Play animation once then switch to Merged
-    teleportTransition(() => {
-      overlay.src = ipfsGateway(newCID);
-      overlay.classList.remove("hidden");
-      statusEl.textContent = `✈️ Sending...`;
+    // Hide main image while sending
+    nftImage.src = ""; // 🧹 Clear previous state
+    overlay.src = ipfsGateway(newCID);
+    overlay.classList.remove("hidden");
+    statusEl.textContent = `✈️ Sending...`;
 
+    teleportTransition(() => {
       setTimeout(() => {
         overlay.classList.add("hidden");
-        simulateTeleport("CID_MERGED"); // Auto switch
+        simulateTeleport("CID_MERGED"); // 🧠 Auto switch AFTER sending animation
         currentIndex = stateOrder.indexOf("CID_MERGED");
-      }, 1000); // Duration matches .gif / animation
+      }, 1000); // Match GIF animation timing
     });
   } else {
     teleportTransition(() => {
       nftImage.src = ipfsGateway(newCID);
-      overlay.classList.add("hidden");
+      overlay.classList.add("hidden"); // ✅ Hide overlay
       statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
     });
   }
