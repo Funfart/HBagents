@@ -2,54 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Glitched Toggle NFT</title>
-  <style>
-    body {
-      margin: 0;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-      color: white;
-      font-family: sans-serif;
-    }
-    img, video {
-      max-width: 90vw;
-      max-height: 75vh;
-      border: 2px solid #fff;
-      border-radius: 8px;
-    }
-    button {
-      margin-top: 20px;
-      padding: 10px 18px;
-      font-size: 16px;
-      background: #fff;
-      color: #000;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+  <title>Teleport NFT Viewer</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <h1>Teleport NFT Viewer</h1>
 
-  <img id="glitch-display" src="https://ipfs.io/ipfs/bafkreidjvtiak7i4pvzkafwnjsinvulozbe4dlk2ut2lsz226yhqff2374" alt="Glitched NFT" />
-  <button onclick="toggle()">Glitch It!</button>
+    <div class="nft-display">
+      <img id="nftImage" src="" alt="NFT" />
+      <audio id="teleport-sound" src="audio/teleport.mp3" preload="auto"></audio>
+      <div class="cooldown" id="cooldown"></div>
+    </div>
 
-  <script>
-    const imageCID = "bafkreidjvtiak7i4pvzkafwnjsinvulozbe4dlk2ut2lsz226yhqff2374";
-    const gifCID = "bafybeiec5fhe5zuznc5lyzpqivdeg5dgenla6raxwd2s27gxtlm6orje24";
-    const gateway = "https://ipfs.io/ipfs/";
+    <div class="buttons">
+      <select id="stateSelector">
+        <option value="CID_DEFAULT_1">Default 1</option>
+        <option value="CID_DEFAULT_2">Default 2</option>
+        <option value="CID_MERGED">Merged</option>
+        <option value="CID_SENDING">Sending</option>
+      </select>
+    </div>
 
-    let isStatic = true;
-    const imgEl = document.getElementById('glitch-display');
+    <div class="status" id="status">Loading...</div>
+  </div>
 
-    function toggle() {
-      isStatic = !isStatic;
-      imgEl.src = isStatic ? gateway + imageCID : gateway + gifCID;
-    }
-  </script>
+  <!-- Script imports -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm"></script>
+  <script src="config.js"></script>
+  <script src="viewer-teleport-slider.js" type="module"></script>
 </body>
 </html>
