@@ -96,7 +96,7 @@ function simulateTeleport(cidKey) {
         overlay.style.display = "none";
         teleportToggle.disabled = false;
         simulateTeleport("CID_DEFAULT_2");
-      }, 2000); // 🕒 Adjusted for 33% faster loop
+      }, 1000); // 🕒 Adjusted for 33% faster loop
     });
   } else {
     teleportTransition(() => {
