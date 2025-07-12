@@ -80,29 +80,29 @@ function simulateTeleport(cidKey) {
     return;
   }
 
-  // Special handling for SENDING
   if (cidKey === "CID_SENDING") {
     teleportTransition(() => {
       overlay.src = ipfsGateway(newCID);
       overlay.classList.remove("hidden");
+      overlay.style.display = "block";
       statusEl.textContent = `✈️ Sending...`;
 
-      // ✨ Keep button visible & reserve layout
       teleportToggle.style.visibility = "visible";
       teleportToggle.disabled = true;
 
-      // Ensure overlay remains while gif plays
+      // 💡 Simulate faster loop (2s), then switch to CID_DEFAULT_2
       setTimeout(() => {
         overlay.classList.add("hidden");
-        simulateTeleport("CID_DEFAULT_2");
-        currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
+        overlay.style.display = "none";
         teleportToggle.disabled = false;
-      }, 3000); // ⏱️ Adjust to match full GIF animation length
+        simulateTeleport("CID_DEFAULT_2");
+      }, 2000); // 🕒 Adjusted for 33% faster loop
     });
   } else {
     teleportTransition(() => {
       nftImage.src = ipfsGateway(newCID);
       overlay.classList.add("hidden");
+      overlay.style.display = "none";
       teleportToggle.disabled = false;
       statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
     });
