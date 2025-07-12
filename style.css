@@ -64,7 +64,7 @@ body {
   z-index: 2;
 }
 .overlay.shift-right {
-  transform: translateX(10px); /* You can adjust this */
+  transform: translateX(9px); /* You can adjust this */
   transition: transform 0.3s ease;
 }
 .hidden {
