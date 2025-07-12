@@ -73,6 +73,8 @@ function handleToggle() {
 
 let userCanToggle = true; // global flag
 
+let userCanToggle = true; // global flag
+
 function simulateTeleport(cidKey) {
   const newCID = stateCIDs[cidKey];
   if (!newCID) {
@@ -80,35 +82,34 @@ function simulateTeleport(cidKey) {
     return;
   }
 
+  // Block user toggle if not allowed
+  if (!userCanToggle && cidKey !== "CID_SENDING") return;
+
   if (cidKey === "CID_SENDING") {
+    userCanToggle = false; // lock toggle input
+
     teleportTransition(() => {
+      nftImage.src = ""; // clear base image
       overlay.src = ipfsGateway(newCID);
       overlay.classList.remove("hidden");
-      overlay.style.display = "block";
       statusEl.textContent = `✈️ Sending...`;
 
-      teleportToggle.style.visibility = "visible";
-      teleportToggle.disabled = true;
-
-      // 💡 Simulate faster loop (2s), then switch to CID_DEFAULT_2
       setTimeout(() => {
         overlay.classList.add("hidden");
-        overlay.style.display = "none";
-        teleportToggle.disabled = false;
-        simulateTeleport("CID_DEFAULT_2");
-      }, 1000); // 🕒 Adjusted for 33% faster loop
+        nftImage.src = ipfsGateway(stateCIDs["CID_DEFAULT_2"]);
+        statusEl.textContent = `🖼️ Showing: DEFAULT_2`;
+        currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
+        userCanToggle = true; // re-enable toggle
+      }, 1200); // match animation duration
     });
   } else {
     teleportTransition(() => {
       nftImage.src = ipfsGateway(newCID);
       overlay.classList.add("hidden");
-      overlay.style.display = "none";
-      teleportToggle.disabled = false;
       statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
     });
   }
 }
-
 function teleportTransition(callback) {
   sound.currentTime = 0;
   sound.play().catch(() => {});
