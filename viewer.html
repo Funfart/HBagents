@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Glitched Toggle NFT</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      color: white;
+      font-family: sans-serif;
+    }
+    img, video {
+      max-width: 90vw;
+      max-height: 75vh;
+      border: 2px solid #fff;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 18px;
+      font-size: 16px;
+      background: #fff;
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <img id="glitch-display" src="https://ipfs.io/ipfs/bafkreidjvtiak7i4pvzkafwnjsinvulozbe4dlk2ut2lsz226yhqff2374" alt="Glitched NFT" />
+  <button onclick="toggle()">Glitch It!</button>
+
+  <script>
+    const imageCID = "bafkreidjvtiak7i4pvzkafwnjsinvulozbe4dlk2ut2lsz226yhqff2374";
+    const gifCID = "bafybeiec5fhe5zuznc5lyzpqivdeg5dgenla6raxwd2s27gxtlm6orje24";
+    const gateway = "https://ipfs.io/ipfs/";
+
+    let isStatic = true;
+    const imgEl = document.getElementById('glitch-display');
+
+    function toggle() {
+      isStatic = !isStatic;
+      imgEl.src = isStatic ? gateway + imageCID : gateway + gifCID;
+    }
+  </script>
+</body>
+</html>
