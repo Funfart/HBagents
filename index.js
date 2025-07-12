@@ -86,8 +86,8 @@ function simulateTeleport(cidKey) {
 
       setTimeout(() => {
         overlay.classList.add("hidden");
-        simulateTeleport("CID_MERGED"); // Auto switch
-        currentIndex = stateOrder.indexOf("CID_GHOST");
+        simulateTeleport("CID_DEFAULT_2"); // Auto switch
+        currentIndex = stateOrder.indexOf("CID_DEFAULT_2");
       }, 1000); // Duration matches .gif / animation
     });
   } else {
