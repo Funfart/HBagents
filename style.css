@@ -57,7 +57,11 @@ body {
   left: 0;
   width: 100%;
   height: auto;
-  pointer-events: none;
+  max-width: 280px;
+  border-radius: 12px;
+  border: 3px solid #00ffe0;
+  box-shadow: 0 0 15px #00ffe0aa;
+  z-index: 2;
 }
 
 .hidden {
