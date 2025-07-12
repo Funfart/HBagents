@@ -4,41 +4,40 @@ import { ethers } from "https://cdn.jsdelivr.net/npm/ethers@6.6.2/+esm";
 const CONTRACT_ADDRESS = window.CONTRACT_ADDRESS;
 const CONTRACT_ABI = window.CONTRACT_ABI;
 
-// DOM elements
+const stateSelector = document.getElementById("stateSelector");
 const nftImage = document.getElementById("nftImage");
-const overlay = document.getElementById("overlay");
+const overlay = document.getElementById("overlay"); // for .gif sending animation
 const statusEl = document.getElementById("status");
 const sound = document.getElementById("teleport-sound");
-const toggleBtn = document.getElementById("teleport-toggle");
-
-// State order for toggling
-const stateOrder = ["CID_DEFAULT_1", "CID_DEFAULT_2", "CID_SENDING", "CID_MERGED", "CID_GHOST"];
-let currentIndex = 0;
+const backgroundEl = document.querySelector(".background-layer");
 
 let contract, signer;
-let tokenId = 1; // Default fallback
+let tokenId = 1; // Default or from URL param
 
 const ipfsGateway = cid =>
   cid.startsWith("ipfs://") ? `https://ipfs.io/ipfs/${cid.slice(7)}` : `https://ipfs.io/ipfs/${cid}`;
 
-// Define all state CIDs
+// CIDs defined in config.js
 const stateCIDs = {
   CID_DEFAULT_1: window.CID_DEFAULT_1,
   CID_DEFAULT_2: window.CID_DEFAULT_2,
   CID_MERGED: window.CID_MERGED,
   CID_SENDING: window.CID_SENDING,
-  CID_GHOST: window.CID_GHOST
+  CID_GHOST: window.CID_GHOST,
 };
 
+const backgroundCID = "bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om"; // Static background
+
 window.onload = async () => {
-  // Get tokenId from query param if available
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has("id")) {
     tokenId = parseInt(urlParams.get("id"));
   }
 
-  // Background stays static
-  document.getElementById("background-layer").style.backgroundImage = `url("https://ipfs.io/ipfs/bafybeibk5wnczn3q3jhig2mjwb7i6mlfavzkp6wq72pt3b743cjy3s55om")`;
+  // Apply background layer
+  if (backgroundEl) {
+    backgroundEl.style.backgroundImage = `url(${ipfsGateway(backgroundCID)})`;
+  }
 
   if (!window.ethereum) {
     statusEl.textContent = "🦊 MetaMask required.";
@@ -50,58 +49,59 @@ window.onload = async () => {
     signer = await provider.getSigner();
     contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
-    statusEl.textContent = `✅ Connected | Token #${tokenId}`;
+    statusEl.textContent = `Connected to wallet. Token ID #${tokenId}`;
 
-    // Setup toggle button
-    toggleBtn.addEventListener("click", handleToggle);
+    stateSelector.addEventListener("change", () => {
+      simulateTeleport(stateSelector.value);
+    });
 
-    // Start with default state
-    simulateTeleport(stateOrder[currentIndex]);
+    simulateTeleport("CID_DEFAULT_1");
   } catch (err) {
     console.error(err);
     statusEl.textContent = "❌ Failed to connect.";
   }
 };
 
-function handleToggle() {
-  // Advance to next state
-  currentIndex = (currentIndex + 1) % stateOrder.length;
-  const nextKey = stateOrder[currentIndex];
-  simulateTeleport(nextKey);
-}
-
 function simulateTeleport(cidKey) {
   const newCID = stateCIDs[cidKey];
+
   if (!newCID) {
-    statusEl.textContent = "⚠️ CID not available.";
+    fallbackToGhost();
     return;
   }
 
   if (cidKey === "CID_SENDING") {
-    // Play animation once then switch to Merged
+    // Show .gif briefly on overlay, then swap to merged
     teleportTransition(() => {
       overlay.src = ipfsGateway(newCID);
       overlay.classList.remove("hidden");
-      statusEl.textContent = `✈️ Sending...`;
 
       setTimeout(() => {
         overlay.classList.add("hidden");
-        simulateTeleport("CID_MERGED"); // Auto switch
-        currentIndex = stateOrder.indexOf("CID_MERGED");
-      }, 1000); // Duration matches .gif / animation
+        simulateTeleport("CID_MERGED");
+      }, 2000); // Duration to show gif
     });
   } else {
     teleportTransition(() => {
       nftImage.src = ipfsGateway(newCID);
-      overlay.classList.add("hidden");
       statusEl.textContent = `🖼️ Showing: ${cidKey.replace("CID_", "")}`;
     });
   }
 }
 
+function fallbackToGhost() {
+  teleportTransition(() => {
+    nftImage.src = ipfsGateway(stateCIDs["CID_GHOST"]);
+    statusEl.textContent = "👻 Empty state (GHOST)";
+  });
+}
+
 function teleportTransition(callback) {
-  sound.currentTime = 0;
-  sound.play().catch(() => {});
+  if (sound) {
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  }
+
   nftImage.classList.add("shake");
   document.body.classList.add("flash");
 
