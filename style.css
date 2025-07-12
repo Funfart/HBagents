@@ -63,7 +63,10 @@ body {
   box-shadow: 0 0 15px #00ffe0aa;
   z-index: 2;
 }
-
+.overlay.shift-right {
+  transform: translateX(40px); /* You can adjust this */
+  transition: transform 0.3s ease;
+}
 .hidden {
   display: none;
 }
