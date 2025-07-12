@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -31,24 +30,16 @@
       <button id="teleport-toggle">Toggle State</button>
     </div>
 
-<div class="background-layer"></div>
-
-<div class="container">
-  <div class="nft-display">
-    <img id="nftImage" src="" />
-    <img id="overlay" class="overlay hidden" src="" />
-  </div>
-
-  <select id="stateSelector">
-    <option value="CID_DEFAULT_1">Default 1</option>
-    <option value="CID_DEFAULT_2">Default 2</option>
-    <option value="CID_SENDING">Sending (.gif)</option>
-    <option value="CID_MERGED">Merged</option>
-  </select>
-
-  <div id="status" class="status">Loading...</div>
-  <audio id="teleport-sound" src="teleport.mp3" preload="auto"></audio>
-</div>
+    <div style="margin-top: 1rem;">
+      <label for="stateSelector">Select State:</label>
+      <select id="stateSelector">
+        <option value="CID_DEFAULT_1">Default 1</option>
+        <option value="CID_DEFAULT_2">Default 2</option>
+        <option value="CID_SENDING">Sending</option>
+        <option value="CID_MERGED">Merged</option>
+        <option value="CID_GHOST">Ghost</option>
+      </select>
+    </div>
 
     <!-- Audio effect -->
     <audio id="teleport-sound" src="teleport.mp3" preload="auto"></audio>
